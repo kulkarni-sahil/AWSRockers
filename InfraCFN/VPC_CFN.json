@@ -1,0 +1,62 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Description": "This is a generic Template for VPC",
+    "Parameters": {
+        "CIDRBlockParam": {
+            "Type": "String",
+            "Default": "10.0.0.0/16",
+            "Description": "This Value will be the CIDR block range for our VPC"
+        },
+        "EnableDnsHostnamesParam": {
+            "Type": "String",
+            "Default": false,
+            "Description": "Indicates whether the instances launched in the VPC get DNS hostnames. If enabled, instances in the VPC get DNS hostnames; otherwise, they do not. Disabled by default for nondefault VPCs."
+        },
+        "EnableDnsSupportParam": {
+            "Type": "String",
+            "Default": true,
+            "Description": "Indicates whether the DNS resolution is supported for the VPC. If enabled, queries to the Amazon provided DNS server at the 169.254.169.253 IP address, or the reserved IP address at the base of the VPC network range \"plus two\" succeed. If disabled, the Amazon provided DNS service in the VPC that resolves public DNS hostnames to IP addresses is not enabled. Enabled by default."
+        },
+        "InstanceTenancyParam": {
+            "Type": "String",
+            "Default": "default",
+            "AllowedValues": [
+                "dedicated",
+                "default",
+                "host"
+            ]
+        },
+        "ApplicationNameTag": {
+            "Type": "String",
+            "Default": "AWSRockers",
+            "Description": "This Property will help us dynamically set-up application name tag"
+        }
+    },
+    "Resources": {
+        "myVPC": {
+            "Type": "AWS::EC2::VPC",
+            "Properties": {
+                "CidrBlock": {
+                    "Ref": "CIDRBlockParam"
+                },
+                "EnableDnsSupport": {
+                    "Ref": "EnableDnsHostnamesParam"
+                },
+                "EnableDnsHostnames": {
+                    "Ref": "EnableDnsSupportParam"
+                },
+                "InstanceTenancy": {
+                    "Ref": "InstanceTenancyParam"
+                },
+                "Tags": [
+                    {
+                        "Key": "ApplicationName",
+                        "Value": {
+                            "Ref": "ApplicationNameTag"
+                        }
+                    }
+                ]
+            }
+        }
+    }
+}
