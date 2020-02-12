@@ -1,0 +1,65 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Description": "This template will deploy a Subnet",
+    "Parameters": {
+        "AssignIpv6AddressOnCreation": {
+            "Type": "String",
+            "Default": false,
+            "Description": "Indicates whether a network interface created in this subnet receives an IPv6 address. The default value is false.If you specify AssignIpv6AddressOnCreation, you must also specify Ipv6CidrBlock.If you specify AssignIpv6AddressOnCreation, you cannot specify MapPublicIpOnLaunch."
+        },
+        "AvailabilityZone": {
+            "Type": "String",
+            "Default": "us-east-1a",
+            "Description": "The Availability Zone of the subnet. If you update this property, you must also update the CidrBlock property."
+        },
+        "CidrBlock": {
+            "Type": "String",
+            "Default": "10.0.0.0/24",
+            "Description": "The IPv4 CIDR block assigned to the subnet. If you update this property, you must also update the AvailabilityZone property."
+        },
+        "Ipv6CidrBlock": {
+            "Type": "String",
+            "Default": "",
+            "Description": "The IPv6 CIDR block"
+        },
+        "MapPublicIpOnLaunch": {
+            "Type": "String",
+            "Default": true,
+            "Description": "Indicates whether instances launched in this subnet receive a public IPv4 address"
+        },
+        "VpcId": {
+            "Type": "String",
+            "Default": "vpc-04f60ba80589dbd8e",
+            "Description": "The ID of the VPC the subnet is in"
+        },
+        "NameTags": {
+            "Type": "String",
+            "Default": "AWSRockers",
+            "Description": ""
+        }
+    },
+    "Resources": {
+        "mySubnet": {
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+                "VpcId": {
+                    "Ref": "VpcId"
+                },
+                "CidrBlock": {
+                    "Ref": "CidrBlock"
+                },
+                "AvailabilityZone": {
+                    "Ref": "AvailabilityZone"
+                },
+                "Tags": [{
+                        "Key": "Name",
+                        "Value": {
+                            "Ref": "NameTags"
+                        }
+                    }
+                ]
+
+            }
+        }
+    }
+}
